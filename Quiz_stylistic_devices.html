@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Stylistic Devices Quiz (Station 10)</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; }
+    body { max-width: 920px; margin: 24px auto; padding: 0 16px; line-height: 1.45; }
+    h1 { font-size: 1.6rem; margin: 0 0 8px; }
+    .meta { color: #555; margin-bottom: 18px; }
+    .card { border: 1px solid #ddd; border-radius: 14px; padding: 14px 14px 10px; margin: 12px 0; }
+    .q { font-weight: 700; margin-bottom: 8px; }
+    .quote { font-style: italic; background: #fafafa; border-left: 4px solid #ddd; padding: 10px 12px; margin: 8px 0 10px; }
+    .opts label { display: block; padding: 8px 10px; border-radius: 10px; border: 1px solid transparent; margin: 6px 0; cursor: pointer; }
+    .opts input { margin-right: 8px; }
+    .opts label:hover { background: #f7f7f7; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0; }
+    button { border: 1px solid #111; background: #111; color: #fff; padding: 10px 14px; border-radius: 12px; cursor: pointer; }
+    button.secondary { background: #fff; color: #111; }
+    button:disabled { opacity: 0.55; cursor: not-allowed; }
+    .result { border: 1px solid #ddd; border-radius: 14px; padding: 14px; margin-top: 16px; background: #fcfcfc; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 0.85rem; margin-left: 8px; }
+    .ok { background: #e9f7ef; color: #0b6b2b; border: 1px solid #bfe8cd; }
+    .no { background: #fdecec; color: #8a0f0f; border: 1px solid #f5b7b7; }
+    .explain { margin-top: 8px; color: #333; }
+    .small { font-size: 0.95rem; color: #444; }
+    footer { margin: 28px 0 10px; color: #666; font-size: 0.9rem; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <h1>Stylistic Devices Quiz (Station 10)</h1>
+  <div class="meta">
+    Choose the correct stylistic (rhetorical) device for each sentence.
+    <br><span class="small">No login needed. Your score appears after you click <b>Submit</b>.</span>
+  </div>
+
+  <form id="quiz"></form>
+
+  <div class="controls">
+    <button type="button" id="submitBtn">Submit</button>
+    <button type="button" class="secondary" id="resetBtn">Reset</button>
+  </div>
+
+  <div id="summary" class="result hidden"></div>
+
+  <footer>
+    Content based on Station 10 stylistic/rhetorical devices. (Self-checking offline HTML)
+  </footer>
+
+<script>
+  // Quiz items based on Station 10 examples & device list
+  const questions = [
+    {
+      text: "The wind whispered secrets to the trees.",
+      options: ["Metaphor", "Personification", "Hyperbole"],
+      correctIndex: 1,
+      explanation: "Personification gives human qualities to something non-human (the wind 'whispered')."
+    },
+    {
+      text: "I've told you a million times to clean your room!",
+      options: ["Repetition", "Hyperbole", "Irony"],
+      correctIndex: 1,
+      explanation: "Hyperbole is exaggeration for emphasis ('a million times')."
+    },
+    {
+      text: "She was as busy as a bee.",
+      options: ["Metaphor", "Simile", "Personification"],
+      correctIndex: 1,
+      explanation: "A simile compares using 'as' or 'like' ('as busy as...')."
+    },
+    {
+      text: "Isn't it time for a change?",
+      options: ["Direct address", "Rhetorical question", "Irony"],
+      correctIndex: 1,
+      explanation: "A rhetorical question is asked for effect; no answer is expected."
+    },
+    {
+      text: "We need change, we need progress, we need unity.",
+      options: ["Parallelism", "Anaphora", "Alliteration"],
+      correctIndex: 1,
+      explanation: "Anaphora repeats a word/phrase at the beginning of clauses ('We need...')."
+    },
+    {
+      text: "Save the seas, stop the pollution!",
+      options: ["Repetition", "Alliteration", "Metaphor"],
+      correctIndex: 1,
+      explanation: "Alliteration repeats initial consonant sounds ('s' in save/seas/stop)."
+    },
+    {
+      text: "Life is a journey, not a destination.",
+      options: ["Simile", "Metaphor", "Antithesis"],
+      correctIndex: 1,
+      explanation: "A metaphor compares directly without 'like/as' (life = journey)."
+    },
+    {
+      text: "Thanks for the traffic jam on my way to work. It made my day.",
+      options: ["Hyperbole", "Irony", "Emphasis"],
+      correctIndex: 1,
+      explanation: "Irony conveys the opposite of the literal meaning (traffic jams don't 'make my day')."
+    },
+    {
+      text: "She came, she saw, she conquered.",
+      options: ["Anaphora", "Parallelism", "Rhetorical question"],
+      correctIndex: 1,
+      explanation: "Parallelism repeats grammatical structure for rhythm and impact."
+    },
+    {
+      text: "It was the best of times, it was the worst of times.",
+      options: ["Antithesis", "Irony", "Hyperbole"],
+      correctIndex: 0,
+      explanation: "Antithesis places contrasting ideas close together (best vs worst)."
+    },
+    {
+      text: "My dear reader, you must understand the gravity of the situation.",
+      options: ["Direct address to the reader", "Use of pronouns", "Repetition"],
+      correctIndex: 0,
+      explanation: "Direct address speaks directly to the reader ('my dear reader', 'you must')."
+    },
+    {
+      text: "\"I have a dream\" that one day this nation will rise up.",
+      options: ["Alliteration", "Anaphora", "Simile"],
+      correctIndex: 1,
+      explanation: "In Station 10, 'I have a dream...' is used as anaphora (repeated opening phrase)."
+    },
+    {
+      text: "This isn't just any chocolate—this is the world's finest, melt-in-your-mouth experience.",
+      options: ["Emphasis", "Metaphor", "Personification"],
+      correctIndex: 0,
+      explanation: "Emphasis highlights importance/special nature (strong wording to make it stand out)."
+    },
+    {
+      text: "You, he, she – we're all in this together.",
+      options: ["Use of pronouns", "Parallelism", "Rhetorical question"],
+      correctIndex: 0,
+      explanation: "Use of pronouns creates inclusion and unity (you/he/she/we)."
+    },
+    {
+      text: "Ask not what your country can do for you, ask what you can do for your country.",
+      options: ["Antithesis", "Hyperbole", "Alliteration"],
+      correctIndex: 0,
+      explanation: "Antithesis contrasts two ideas in a balanced structure (country for you vs you for country)."
+    }
+  ];
+
+  const quizForm = document.getElementById("quiz");
+
+  function renderQuiz() {
+    quizForm.innerHTML = "";
+    questions.forEach((q, i) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.dataset.index = i;
+
+      const qTitle = document.createElement("div");
+      qTitle.className = "q";
+      qTitle.textContent = `Question ${i + 1}`;
+      card.appendChild(qTitle);
+
+      const quote = document.createElement("div");
+      quote.className = "quote";
+      quote.textContent = q.text;
+      card.appendChild(quote);
+
+      const opts = document.createElement("div");
+      opts.className = "opts";
+      q.options.forEach((opt, j) => {
+        const id = `q${i}_opt${j}`;
+        const label = document.createElement("label");
+        label.setAttribute("for", id);
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `q${i}`;
+        radio.id = id;
+        radio.value = j;
+
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(opt));
+        opts.appendChild(label);
+      });
+
+      card.appendChild(opts);
+
+      // feedback placeholder
+      const feedback = document.createElement("div");
+      feedback.className = "explain hidden";
+      feedback.id = `fb${i}`;
+      card.appendChild(feedback);
+
+      quizForm.appendChild(card);
+    });
+  }
+
+  function gradeQuiz() {
+    let score = 0;
+    let answered = 0;
+
+    questions.forEach((q, i) => {
+      const chosen = document.querySelector(`input[name="q${i}"]:checked`);
+      const feedback = document.getElementById(`fb${i}`);
+      feedback.classList.remove("hidden");
+
+      // reset label styles
+      document.querySelectorAll(`input[name="q${i}"]`).forEach(inp => {
+        const lab = inp.parentElement;
+        lab.style.borderColor = "transparent";
+        lab.style.background = "";
+      });
+
+      if (!chosen) {
+        feedback.innerHTML = `<span class="badge no">Not answered</span> Please choose an option.`;
+        return;
+      }
+      answered++;
+
+      const chosenIndex = Number(chosen.value);
+      const isCorrect = chosenIndex === q.correctIndex;
+      if (isCorrect) score++;
+
+      // highlight chosen + correct
+      const chosenLabel = chosen.parentElement;
+      chosenLabel.style.borderColor = isCorrect ? "#2e7d32" : "#c62828";
+      chosenLabel.style.background = isCorrect ? "#e9f7ef" : "#fdecec";
+
+      const correctRadio = document.querySelector(`#q${i}_opt${q.correctIndex}`);
+      const correctLabel = correctRadio.parentElement;
+      correctLabel.style.borderColor = "#2e7d32";
+      correctLabel.style.background = "#e9f7ef";
+
+      feedback.innerHTML =
+        `${isCorrect
+          ? `<span class="badge ok">Correct</span>`
+          : `<span class="badge no">Wrong</span> Correct answer: <b>${q.options[q.correctIndex]}</b>`}
+         <div class="small" style="margin-top:6px;">${q.explanation}</div>`;
+    });
+
+    const summary = document.getElementById("summary");
+    summary.classList.remove("hidden");
+    summary.innerHTML = `
+      <h2 style="margin:0 0 6px; font-size:1.2rem;">Your result</h2>
+      <div><b>Score:</b> ${score} / ${questions.length}</div>
+      <div><b>Answered:</b> ${answered} / ${questions.length}</div>
+      <div class="small" style="margin-top:8px;">
+        Tip: Review the feedback under each question and try again if needed.
+      </div>
+    `;
+
+    // disable submit to prevent confusion; reset to try again
+    document.getElementById("submitBtn").disabled = true;
+  }
+
+  function resetQuiz() {
+    document.getElementById("summary").classList.add("hidden");
+    document.getElementById("submitBtn").disabled = false;
+    // clear selections & feedback
+    document.querySelectorAll("input[type=radio]").forEach(r => r.checked = false);
+    document.querySelectorAll(".explain").forEach(fb => {
+      fb.classList.add("hidden");
+      fb.innerHTML = "";
+    });
+    // clear label styling
+    document.querySelectorAll(".opts label").forEach(lab => {
+      lab.style.borderColor = "transparent";
+      lab.style.background = "";
+    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  document.getElementById("submitBtn").addEventListener("click", gradeQuiz);
+  document.getElementById("resetBtn").addEventListener("click", resetQuiz);
+
+  renderQuiz();
+</script>
+</body>
+</html>
+
